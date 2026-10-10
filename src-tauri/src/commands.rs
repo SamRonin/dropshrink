@@ -2,7 +2,7 @@ use std::path::Path;
 use std::sync::atomic::Ordering;
 use std::sync::Arc;
 
-use tauri::{AppHandle, Emitter, State};
+use tauri::{AppHandle, State};
 use uuid::Uuid;
 
 use crate::detect::{self, FfmpegStatus};
@@ -144,7 +144,7 @@ pub async fn cancel_job(
                     &app,
                     JobUpdate {
                         status: Some(JobStatus::Canceled),
-                        error: Some("error.canceled".into()),
+                        error: Some(Some("error.canceled".into())),
                         ..JobUpdate::new(&id)
                     },
                 );
@@ -166,7 +166,7 @@ pub async fn retry_job(
             Some(control) => {
                 control.cancel.store(false, Ordering::SeqCst);
                 control.child = None;
-                job_from_spec(&control.spec)
+                Some(job_from_spec(&control.spec))
             }
             None => None,
         }

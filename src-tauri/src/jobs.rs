@@ -67,8 +67,9 @@ pub struct JobUpdate {
     pub output_path: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output_size: Option<Option<u64>>,
+    /// `Some(None)` serializes to `null` → the frontend clears a previous error.
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub error: Option<String>,
+    pub error: Option<Option<String>>,
 }
 
 impl JobUpdate {

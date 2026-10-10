@@ -57,7 +57,7 @@ async fn run_job(app: AppHandle, id: String) {
             &app,
             JobUpdate {
                 status: Some(JobStatus::Canceled),
-                error: Some(ERROR_CANCELED.into()),
+                error: Some(Some(ERROR_CANCELED.into())),
                 ..JobUpdate::new(&id)
             },
         );
@@ -73,7 +73,7 @@ async fn run_job(app: AppHandle, id: String) {
             &app,
             JobUpdate {
                 status: Some(JobStatus::Canceled),
-                error: Some(ERROR_CANCELED.into()),
+                error: Some(Some(ERROR_CANCELED.into())),
                 ..JobUpdate::new(&id)
             },
         );
@@ -90,7 +90,7 @@ async fn run_job(app: AppHandle, id: String) {
             &app,
             JobUpdate {
                 status: Some(JobStatus::Error),
-                error: Some(ERROR_FFMPEG_MISSING.into()),
+                error: Some(Some(ERROR_FFMPEG_MISSING.into())),
                 ..JobUpdate::new(&id)
             },
         );
@@ -121,7 +121,7 @@ async fn run_job(app: AppHandle, id: String) {
                 &app,
                 JobUpdate {
                     status: Some(JobStatus::Error),
-                    error: Some(ERROR_FFMPEG_MISSING.into()),
+                    error: Some(Some(ERROR_FFMPEG_MISSING.into())),
                     ..JobUpdate::new(&id)
                 },
             );
@@ -139,7 +139,7 @@ async fn run_job(app: AppHandle, id: String) {
                     &app,
                     JobUpdate {
                         status: Some(JobStatus::Error),
-                        error: Some(message),
+                        error: Some(Some(message)),
                         ..JobUpdate::new(&id)
                     },
                 );
@@ -209,7 +209,7 @@ async fn run_job(app: AppHandle, id: String) {
                 &app,
                 JobUpdate {
                     status: Some(JobStatus::Error),
-                    error: Some(format!("{ERROR_ENCODE_FAILED}: {err}")),
+                    error: Some(Some(format!("{ERROR_ENCODE_FAILED}: {err}"))),
                     ..JobUpdate::new(&id)
                 },
             );
@@ -303,7 +303,7 @@ async fn run_job(app: AppHandle, id: String) {
             &app,
             JobUpdate {
                 status: Some(JobStatus::Canceled),
-                error: Some(ERROR_CANCELED.into()),
+                error: Some(Some(ERROR_CANCELED.into())),
                 eta_secs: Some(None),
                 fps: Some(None),
                 kbps: Some(None),
@@ -324,7 +324,7 @@ async fn run_job(app: AppHandle, id: String) {
                     eta_secs: Some(None),
                     fps: Some(None),
                     kbps: Some(None),
-                    output_size,
+                    output_size: Some(output_size),
                     error: Some(None),
                     ..JobUpdate::new(&id)
                 },
@@ -342,7 +342,7 @@ async fn run_job(app: AppHandle, id: String) {
                 &app,
                 JobUpdate {
                     status: Some(JobStatus::Error),
-                    error: Some(message),
+                    error: Some(Some(message)),
                     eta_secs: Some(None),
                     fps: Some(None),
                     kbps: Some(None),
