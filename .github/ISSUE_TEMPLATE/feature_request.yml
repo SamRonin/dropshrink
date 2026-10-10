@@ -1,0 +1,61 @@
+name: "✨ Feature request"
+description: "Suggest an idea for DropShrink — پیشنهاد یک قابلیت جدید"
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **فارسی:** ایده‌های تازه خوش‌آمدند! 🎉 لطفاً مشکل یا نیاز واقعی را توضیح دهید؛ این کمک می‌کند راه‌حل بهتری طراحی کنیم.
+        **English:** New ideas are welcome! 🎉 Please focus on the problem or real-world need.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: "Is your request related to a problem? — مشکلی که می‌خواهید حل شود"
+      description: "سناریوی واقعی و شفاف / A clear and concise description of the problem or use case"
+      placeholder: "«همیشه وقتی می‌خواهم…، الان مجبورم…» / \"I'm always frustrated when…\""
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: "Proposed solution — راه‌حل پیشنهادی"
+      description: "چه چیزی را دقیقاً در ذهن دارید؟ / What would you like to happen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: "Alternatives considered — راه‌حل‌های جایگزین"
+      description: "راه‌حل‌ها یا ابزارهای دیگری که امتحان کرده‌اید / Any alternative solutions or workarounds you've considered"
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Which area does it affect? — مربوط به کدام بخش است؟"
+      options:
+        - "Presets / compression — پریست‌ها و فشرده‌سازی"
+        - "Queue / progress — صف پردازش و پیشرفت"
+        - "UI / UX — رابط کاربری"
+        - "Settings — تنظیمات"
+        - "i18n / languages — زبان و ترجمه"
+        - "Other — دیگر"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: "Willing to contribute? — مایل به مشارکت هستید؟"
+      description: "اگر مایلید در پیاده‌سازی این قابلیت کمک کنید، بخش CONTRIBUTING.md را ببینید"
+      options:
+        - label: "I would like to help implement this — بله، می‌خواهم کمک کنم"
+
+  - type: textarea
+    id: extra
+    attributes:
+      label: "Anything else? — نکته دیگری هست؟"
+      description: "اسکرین‌شات، نمونه فایل، یا هر توضیح دیگر"

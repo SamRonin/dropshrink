@@ -1,0 +1,46 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "DropShrink",
+  "version": "0.1.0",
+  "identifier": "app.dropshrink.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": false,
+    "windows": [
+      {
+        "title": "DropShrink",
+        "width": 940,
+        "height": 700,
+        "minWidth": 740,
+        "minHeight": 560,
+        "center": true,
+        "resizable": true,
+        "fullscreen": false,
+        "dragDropEnabled": true,
+        "theme": "Dark"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "category": "Video",
+    "shortDescription": "Fast, offline video & image compressor",
+    "longDescription": "DropShrink is a fast, fully offline drag-and-drop compressor for videos and images, powered by a local FFmpeg engine. No cloud, no accounts, no telemetry.",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ]
+  }
+}

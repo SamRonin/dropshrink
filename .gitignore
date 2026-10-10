@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+src-tauri/target/
+src-tauri/gen/
+
+# Env / logs
+.env
+.env.*
+*.log
+dev.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Raw design assets (processed icons are committed)
+assets/icon-raw*
+
+# Local npm artifacts
+.npm/
