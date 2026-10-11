@@ -31,6 +31,10 @@ interface AppState {
   settingsOpen: boolean
   setSettingsOpen: (open: boolean) => void
 
+  // Preview & compare dialog
+  previewJobId: string | null
+  setPreviewJobId: (id: string | null) => void
+
   // Queue
   jobs: Job[]
   addJobs: (jobs: Job[]) => void
@@ -67,6 +71,9 @@ export const useAppStore = create<AppState>((set) => ({
   settingsOpen: false,
   setSettingsOpen: (settingsOpen) => set({ settingsOpen }),
 
+  previewJobId: null,
+  setPreviewJobId: (previewJobId) => set({ previewJobId }),
+
   jobs: [],
   addJobs: (incoming) =>
     set((state) => {
@@ -92,6 +99,8 @@ export const useAppStore = create<AppState>((set) => ({
                   : update.outputPath,
               outputSize:
                 update.outputSize === undefined ? job.outputSize : update.outputSize,
+              warning:
+                update.warning === undefined ? job.warning : update.warning,
               error: update.error === undefined ? job.error : update.error,
             }
           : job,

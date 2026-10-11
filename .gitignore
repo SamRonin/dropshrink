@@ -28,3 +28,6 @@ assets/icon-raw*
 # Bun lockfile (project standard is npm)
 bun.lock
 bun.lockb
+
+# FFmpeg sidecar binaries (fetched via scripts/fetch-binaries.sh)
+src-tauri/binaries/

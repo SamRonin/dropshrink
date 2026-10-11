@@ -7,6 +7,7 @@ import type {
   Job,
   JobUpdate,
   Preset,
+  VideoPreview,
 } from '../types'
 
 /**
@@ -15,6 +16,9 @@ import type {
  */
 export const api = {
   detectFfmpeg: () => invoke<FfmpegStatus>('detect_ffmpeg'),
+
+  /** Force a fresh FFmpeg/FFprobe + hardware-encoder detection pass. */
+  redetectFfmpeg: () => invoke<FfmpegStatus>('redetect_ffmpeg'),
 
   enqueueFiles: (paths: string[], preset: Preset) =>
     invoke<Job[]>('enqueue_files', { paths, preset }),
@@ -29,6 +33,10 @@ export const api = {
     invoke<void>('update_settings', { settings }),
 
   revealPath: (path: string) => invoke<void>('reveal_path', { path }),
+
+  /** Extract first/middle frames of a video (and its output) for diffing. */
+  videoPreview: (input: string, output: string | null) =>
+    invoke<VideoPreview>('video_preview', { input, output: output ?? null }),
 }
 
 /** Subscribe to live job progress updates emitted by the Rust backend. */

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { open as openDialog } from '@tauri-apps/plugin-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
-import { FolderOpen } from 'lucide-react'
+import { FolderOpen, Zap } from 'lucide-react'
 
 import type { AppSettings, WebCodec } from '../types'
 import { api } from '../lib/tauri'
@@ -21,6 +21,8 @@ const DEFAULT_SETTINGS: AppSettings = {
   webCodec: 'h264',
   outputDir: null,
   stripMetadata: true,
+  hwAccel: true,
+  ffmpegDir: null,
 }
 
 export function SettingsDialog() {
@@ -29,6 +31,8 @@ export function SettingsDialog() {
   const setSettingsOpen = useAppStore((s) => s.setSettingsOpen)
   const settings = useAppStore((s) => s.settings)
   const setSettings = useAppStore((s) => s.setSettings)
+  const setFfmpeg = useAppStore((s) => s.setFfmpeg)
+  const ffmpeg = useAppStore((s) => s.ffmpeg)
   const toast = useAppStore((s) => s.toast)
 
   const [draft, setDraft] = useState<AppSettings | null>(null)
@@ -72,11 +76,35 @@ export function SettingsDialog() {
     }
   }
 
+  const pickFfmpegDir = async () => {
+    try {
+      const result = await openDialog({ directory: true })
+      if (typeof result === 'string') {
+        setDraft((current) =>
+          current ? { ...current, ffmpegDir: result } : current,
+        )
+      }
+      // Canceled (null) → keep the previous value.
+    } catch (err) {
+      toast('error', String(err))
+    }
+  }
+
   const save = async () => {
     if (!draft) return
     try {
+      const previousDir = settings?.ffmpegDir ?? null
       await api.updateSettings(draft)
       setSettings(draft)
+      // The custom FFmpeg folder affects binary detection → re-run it.
+      if ((draft.ffmpegDir ?? null) !== previousDir) {
+        try {
+          const status = await api.redetectFfmpeg()
+          setFfmpeg(status)
+        } catch {
+          /* keep the previous engine status */
+        }
+      }
       toast('success', t('toast.settingsSaved'))
       setSettingsOpen(false)
     } catch (err) {
@@ -241,6 +269,76 @@ export function SettingsDialog() {
                     }`}
                   />
                 </button>
+              </div>
+
+              {/* Hardware acceleration switch */}
+              <div className="flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="flex items-center gap-1.5 text-sm font-medium text-zinc-200">
+                    <Zap className="h-3.5 w-3.5 text-accent-300" aria-hidden="true" />
+                    {t('settings.hwAccel')}
+                  </p>
+                  <p className="mt-0.5 text-xs leading-relaxed text-zinc-500">
+                    {t('settings.hwAccelHint')}
+                  </p>
+                  <p
+                    className={`mt-1.5 text-xs leading-relaxed ${
+                      ffmpeg?.hwAccel.available ? 'text-emerald-300/80' : 'text-amber-300/80'
+                    }`}
+                  >
+                    {ffmpeg?.hwAccel.available
+                      ? t('settings.hwAccel.encoders', {
+                          list: ffmpeg.hwAccel.encoders.join(', '),
+                        })
+                      : t('settings.hwAccel.unavailable')}
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={draft.hwAccel}
+                  aria-label={t('settings.hwAccel')}
+                  onClick={() =>
+                    setDraft((current) =>
+                      current ? { ...current, hwAccel: !current.hwAccel } : current,
+                    )
+                  }
+                  className={`relative mt-0.5 h-6 w-10 shrink-0 rounded-full transition-colors ${
+                    draft.hwAccel ? 'bg-accent-500' : 'bg-white/10'
+                  }`}
+                >
+                  <span
+                    className={`absolute top-0.5 start-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform ${
+                      draft.hwAccel ? 'translate-x-4 rtl:-translate-x-4' : 'translate-x-0'
+                    }`}
+                  />
+                </button>
+              </div>
+
+              {/* Custom FFmpeg folder */}
+              <div>
+                <p className="text-sm font-medium text-zinc-200">
+                  {t('settings.ffmpegDir')}
+                </p>
+                <div className="mt-2 flex items-center gap-2">
+                  <p
+                    dir="ltr"
+                    className="min-w-0 flex-1 truncate rounded-lg bg-ink-900 px-3 py-2 font-mono text-xs text-zinc-400"
+                  >
+                    {draft.ffmpegDir ?? t('settings.ffmpegDirAuto')}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => void pickFfmpegDir()}
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-white/5 px-3 text-xs font-medium text-zinc-200 transition-colors hover:bg-white/10"
+                  >
+                    <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
+                    {t('settings.outputDirPick')}
+                  </button>
+                </div>
+                <p className="mt-1.5 text-xs text-zinc-500">
+                  {t('settings.ffmpegDirHint')}
+                </p>
               </div>
             </div>
 

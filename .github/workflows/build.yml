@@ -8,6 +8,12 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# Superseded runs of the same branch are pointless — the macos-13 runner was
+# retired by GitHub and used to pile up "queued forever" jobs here.
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   lint:
     name: Type-check & frontend build
@@ -43,9 +49,11 @@ jobs:
             bundles: 'appimage deb'
           - os: windows-latest
             target: x86_64-pc-windows-msvc
-          - os: macos-14
+          - os: macos-15
             target: aarch64-apple-darwin
-          - os: macos-13
+          # macos-13 runners were retired by GitHub (jobs queue forever);
+          # build the Intel bundle by cross-compiling from an arm64 runner.
+          - os: macos-15
             target: x86_64-apple-darwin
 
     steps:
@@ -74,6 +82,15 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev build-essential curl wget file libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
+
+      # FFmpeg/FFprobe sidecars (Tauri externalBin) must exist before tauri build.
+      - name: Fetch FFmpeg sidecar binaries (unix)
+        if: matrix.os != 'windows-latest'
+        run: bash scripts/fetch-binaries.sh ${{ matrix.target }}
+
+      - name: Fetch FFmpeg sidecar binaries (windows)
+        if: matrix.os == 'windows-latest'
+        run: pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/fetch-binaries.ps1 -Triple ${{ matrix.target }}
 
       - name: Install dependencies
         run: npm ci

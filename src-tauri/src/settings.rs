@@ -11,6 +11,8 @@ pub enum WebCodec {
 }
 
 /// Persisted user preferences. Mirrors `AppSettings` in `src/types.ts`.
+/// The container-level `default` keeps old settings files forward-compatible:
+/// missing fields are filled in from `Settings::default()` on load.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase", default)]
 pub struct Settings {
@@ -18,6 +20,11 @@ pub struct Settings {
     pub web_codec: WebCodec,
     pub output_dir: Option<String>,
     pub strip_metadata: bool,
+    /// Encode with a hardware encoder when one is detected and working.
+    pub hw_accel: bool,
+    /// Optional user-provided directory that contains `ffmpeg`/`ffprobe`.
+    /// Lowest lookup priority (sidecar → PATH → common → custom).
+    pub custom_ffmpeg_dir: Option<String>,
 }
 
 impl Default for Settings {
@@ -30,6 +37,8 @@ impl Default for Settings {
             web_codec: WebCodec::H264,
             output_dir: None,
             strip_metadata: true,
+            hw_accel: true,
+            custom_ffmpeg_dir: None,
         }
     }
 }
