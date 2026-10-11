@@ -37,9 +37,39 @@
 - **حذف متادیتا با یک کلید** — اطلاعات دوربین و موقعیت مکانی (EXIF/GPS) از خروجی پاک می‌شوند.
 - **دوزبانه** — فارسی (راست‌به‌چپ) و انگلیسی، با تشخیص خودکار زبان سیستم و فونت‌های همراه برنامه (کاملاً آفلاین).
 
+
 ## 📸 تصاویر
 
-> 🚧 اسکرین‌شات‌ها و دموی برنامه به‌زودی اضافه می‌شوند 🙂
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/Main-Page-En.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 1" />
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/Main-Page-Fa.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 2" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/Setting-Page_En.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 3" />
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/Setting-Page_Fa.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 4" />
+    </td>
+  </tr>
+</table>
 
 ## 🚀 ویژگی‌ها
 
