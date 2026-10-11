@@ -23,12 +23,14 @@ pub fn run() {
         })
         .invoke_handler(tauri::generate_handler![
             commands::detect_ffmpeg,
+            commands::redetect_ffmpeg,
             commands::enqueue_files,
             commands::cancel_job,
             commands::retry_job,
             commands::get_settings,
             commands::update_settings,
             commands::reveal_path,
+            commands::video_preview,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

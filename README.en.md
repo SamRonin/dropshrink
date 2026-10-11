@@ -48,6 +48,9 @@ Drop a large file into the window, pick a preset (e.g. "Telegram"), and collect 
 - ⚙️ Controlled parallelism (1–8 concurrent jobs)
 - 🧾 Output named `ds-<original-file>` next to the source file or in a folder of your choice
 - 🔒 Metadata stripping (EXIF/GPS)
+- ⚡ Hardware acceleration — GPU encoders detected automatically (NVIDIA NVENC, Intel QSV, VAAPI, VideoToolbox) with automatic CPU fallback on failure
+- 🔍 Preview & compare — before/after slider or side-by-side diff for images and videos, including synchronized dual video playback
+- 🛡 Size guard — if the output ends up larger than the input, it is removed and the user is clearly warned
 - 🌐 Persian & English with full RTL/LTR support
 - ⌨️ Keyboard shortcuts for common actions
 
@@ -84,12 +87,14 @@ Grab the latest version from the [Releases page](https://github.com/SamRonin/dro
 
 ### Installing FFmpeg
 
-On startup, DropShrink locates FFmpeg in this order:
+As of the current version, the FFmpeg/FFprobe binaries are **bundled with the app as Tauri sidecars**, so a separate installation is usually unnecessary. Otherwise, DropShrink locates FFmpeg in this order:
 
-1. A `binaries/` folder next to the installed app (portable mode — you can drop your own `ffmpeg` and `ffprobe` there)
-2. The app's resources directory
-3. The system `PATH`
-4. Common install locations (e.g. `C:\ffmpeg\bin`, `/opt/homebrew/bin`, `/usr/local/bin`…)
+1. Sidecar binaries shipped with the app (`ffmpeg-<platform>` next to the executable)
+2. A `binaries/` folder next to the installed app (portable mode — you can drop your own `ffmpeg` and `ffprobe` there)
+3. The app's resources directory
+4. The system `PATH`
+5. Common install locations (e.g. `C:\ffmpeg\bin`, `/opt/homebrew/bin`, `/usr/local/bin`…)
+6. A folder you pick yourself in Settings ("FFmpeg folder")
 
 If FFmpeg is not on your system, run one of the following:
 
@@ -132,7 +137,9 @@ Common formats are supported: MP4, MKV, MOV, WebM for video; JPG, PNG, WebP for 
 | Concurrent jobs | How many files encode at the same time (1–8) | ≈ half of your CPU cores |
 | Web preset codec | H.264 (faster encode) or VP9 (smaller files, slower encode, WebM output) | H.264 |
 | Output folder | Next to the source file, or a folder you pick | Next to the source file |
-| Strip metadata | Remove EXIF, location and other personal data from outputs | — |
+| Strip metadata | Remove EXIF, location and other personal data from outputs; when disabled, metadata is carried over via `-map_metadata 0` | On |
+| Hardware acceleration | Encode video on the GPU when a working encoder (NVENC/QSV/VAAPI/VideoToolbox) is detected, with automatic CPU fallback | On (when available) |
+| FFmpeg folder | Manual path to a folder containing ffmpeg & ffprobe; used only when no bundled or system copy exists | Auto-detect |
 
 ## 🔒 Privacy
 
@@ -160,6 +167,7 @@ Then:
 git clone https://github.com/SamRonin/dropshrink.git
 cd dropshrink
 npm install
+bash scripts/fetch-binaries.sh   # fetch sidecar binaries for your platform (Windows: scripts/fetch-binaries.ps1)
 npm run tauri dev    # run in development mode
 npm run tauri build  # build installers
 ```

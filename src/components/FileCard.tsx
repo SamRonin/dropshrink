@@ -6,6 +6,7 @@ import {
   Ban,
   Check,
   Clock,
+  Columns2,
   Film,
   FolderOpen,
   Image as ImageIcon,
@@ -72,6 +73,7 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
   const { t, lang } = useI18n()
   const applyUpdate = useAppStore((s) => s.applyUpdate)
   const removeJob = useAppStore((s) => s.removeJob)
+  const setPreviewJobId = useAppStore((s) => s.setPreviewJobId)
   const toast = useAppStore((s) => s.toast)
 
   const visual = statusVisual(job.status, t)
@@ -79,7 +81,10 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
   const percentSuffix = lang === 'fa' ? '٪' : '%'
 
   const canCancel = job.status === 'queued' || job.status === 'processing'
-  const canReveal = job.status === 'done'
+  // A "done" job without outputSize had its oversized output removed.
+  const hasOutput = job.status === 'done' && job.outputSize != null
+  const canReveal = hasOutput && job.outputPath != null
+  const canCompare = hasOutput && job.outputPath != null
   const canRetry = job.status === 'error' || job.status === 'canceled'
   const canRemove =
     job.status === 'done' || job.status === 'error' || job.status === 'canceled'
@@ -90,6 +95,10 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
 
   const onReveal = () => {
     api.revealPath(job.outputPath ?? job.inputPath).catch(() => undefined)
+  }
+
+  const onCompare = () => {
+    setPreviewJobId(job.id)
   }
 
   const onRetry = () => {
@@ -220,6 +229,24 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
           </p>
         )}
 
+        {job.warning && (
+          <div
+            className="mt-2 flex items-start gap-1.5 break-words rounded-lg bg-amber-400/[0.07] px-2.5 py-2 text-xs text-amber-300/90"
+            dir="auto"
+          >
+            <AlertTriangle className="mt-0.5 h-3 w-3 shrink-0" aria-hidden="true" />
+            <span>
+              {job.warning
+                .split('\n')
+                .map((line, index) => (
+                  <span key={index} className="block">
+                    {line.startsWith('warning.') ? t(line) : line}
+                  </span>
+                ))}
+            </span>
+          </div>
+        )}
+
         {/* Row 3 — actions */}
         <div className="mt-3 flex items-center justify-end gap-1 border-t border-white/[0.04] pt-2.5">
           {canCancel && (
@@ -230,6 +257,17 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
               onClick={onCancel}
             >
               <X className="h-4 w-4" aria-hidden="true" />
+            </button>
+          )}
+          {canCompare && (
+            <button
+              type="button"
+              className="icon-btn"
+              aria-label={t('card.compare')}
+              title={t('card.compare')}
+              onClick={onCompare}
+            >
+              <Columns2 className="h-4 w-4" aria-hidden="true" />
             </button>
           )}
           {canReveal && (

@@ -45,6 +45,9 @@ pub struct Job {
     pub kbps: Option<u64>,
     pub output_size: Option<u64>,
     pub error: Option<String>,
+    /// Non-fatal note for the UI (e.g. "fell back to CPU", "output removed").
+    /// An i18n `warning.*` key.
+    pub warning: Option<String>,
 }
 
 /// Live update emitted on the `job-update` channel. `None` fields are skipped
@@ -67,6 +70,9 @@ pub struct JobUpdate {
     pub output_path: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output_size: Option<Option<u64>>,
+    /// `Some(None)` serializes to `null` → the frontend clears a previous warning.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub warning: Option<Option<String>>,
     /// `Some(None)` serializes to `null` → the frontend clears a previous error.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub error: Option<Option<String>>,
@@ -83,6 +89,7 @@ impl JobUpdate {
             kbps: None,
             output_path: None,
             output_size: None,
+            warning: None,
             error: None,
         }
     }

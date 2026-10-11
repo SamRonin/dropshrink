@@ -2,6 +2,7 @@ import { DropZone } from './components/DropZone'
 import { Footer } from './components/Footer'
 import { Header } from './components/Header'
 import { PresetSelector } from './components/PresetSelector'
+import { PreviewDialog } from './components/PreviewDialog'
 import { QueueList } from './components/QueueList'
 import { SettingsDialog } from './components/SettingsDialog'
 import { Toaster } from './components/Toaster'
@@ -24,6 +25,7 @@ export default function App() {
       </main>
       <Footer />
       <SettingsDialog />
+      <PreviewDialog />
       <Toaster />
     </div>
   )
