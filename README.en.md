@@ -35,9 +35,40 @@ Drop a large file into the window, pick a preset (e.g. "Telegram"), and collect 
 - **One-toggle metadata stripping** — camera & location data (EXIF/GPS) are removed from the output.
 - **Bilingual** — Persian (RTL) and English (LTR), with automatic system-language detection and bundled fonts (fully offline).
 
+
 ## 📸 Screenshots
 
-> 🚧 Screenshots and a demo are coming soon — به‌زودی 🙂
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/Main-Page-En.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 1" />
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/Main-Page-Fa.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 2" />
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="assets/images/Setting-Page_En.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 3" />
+    </td>
+    <td align="center" width="50%">
+      <img src="assets/images/Setting-Page_Fa.png"
+           width="100%" height="240"
+           style="object-fit: cover;"
+           alt="Screenshot 4" />
+    </td>
+  </tr>
+</table>
+
 
 ## 🚀 Features
 
