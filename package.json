@@ -1,7 +1,7 @@
 {
   "name": "dropshrink",
   "private": true,
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Fast, offline drag-and-drop video & image compressor powered by FFmpeg — فشرده‌ساز آفلاین ویدیو و تصویر",
   "type": "module",
   "scripts": {
