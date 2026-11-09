@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 
-import { api, listenJobUpdate } from '../lib/tauri'
+import { api, listenJobUpdate, listenOpenFilesPending } from '../lib/tauri'
+import { formatNumber } from '../lib/format'
 import { useAppStore } from '../store/useAppStore'
 import { useI18n } from '../i18n'
 
@@ -44,13 +45,54 @@ export function useTauriEvents(): void {
         if (active) toast('error', tRef.current('ffmpeg.missing.toast'))
       })
 
+    // Files passed by the OS ("Open with") are queued with the current preset,
+    // exactly like files dropped onto the window.
+    const drainOpenFiles = () => {
+      api
+        .takePendingOpen()
+        .then((paths) => {
+          if (!active || paths.length === 0) return
+          const store = useAppStore.getState()
+          return api
+            .enqueueFiles(paths, store.preset)
+            .then((newJobs) => {
+              store.addJobs(newJobs)
+              store.toast(
+                'success',
+                tRef.current('toast.enqueued', {
+                  count: formatNumber(newJobs.length, store.lang),
+                }),
+              )
+            })
+            .catch((err: unknown) => {
+              const message = String(err)
+              store.toast(
+                'error',
+                message.includes('ffmpeg_missing')
+                  ? tRef.current('error.ffmpeg_missing')
+                  : message,
+              )
+            })
+        })
+        .catch((err: unknown) => {
+          console.error('[dropshrink] take_pending_open failed:', err)
+        })
+    }
+
     const unlistenPromise = listenJobUpdate((update) => {
       applyUpdate(update)
     })
 
+    const unlistenOpenPromise = listenOpenFilesPending(drainOpenFiles)
+    // Pick up files that arrived before this listener was registered.
+    drainOpenFiles()
+
     return () => {
       active = false
       unlistenPromise
+        .then((unlisten) => unlisten())
+        .catch(() => undefined)
+      unlistenOpenPromise
         .then((unlisten) => unlisten())
         .catch(() => undefined)
     }

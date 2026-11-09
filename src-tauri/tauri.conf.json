@@ -49,6 +49,20 @@
       "icons/128x128@2x.png",
       "icons/icon.icns",
       "icons/icon.ico"
+    ],
+    "fileAssociations": [
+      {
+        "ext": ["mp4", "mkv", "mov", "webm", "m4v", "avi", "wmv", "flv", "mpg", "mpeg", "3gp"],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor"
+      },
+      {
+        "ext": ["jpg", "jpeg", "png", "webp", "bmp", "tif", "tiff", "gif", "avif"],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor"
+      }
     ]
   }
 }

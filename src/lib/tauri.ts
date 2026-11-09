@@ -23,6 +23,9 @@ export const api = {
   enqueueFiles: (paths: string[], preset: Preset) =>
     invoke<Job[]>('enqueue_files', { paths, preset }),
 
+  /** Files the OS handed to the app ("Open with") that are not queued yet. */
+  takePendingOpen: () => invoke<string[]>('take_pending_open'),
+
   cancelJob: (id: string) => invoke<void>('cancel_job', { id }),
 
   retryJob: (id: string) => invoke<Job | null>('retry_job', { id }),
@@ -44,6 +47,11 @@ export function listenJobUpdate(
   handler: (update: JobUpdate) => void,
 ): Promise<() => void> {
   return listen<JobUpdate>('job-update', (event) => handler(event.payload))
+}
+
+/** Fires when the OS hands new files to the running app. */
+export function listenOpenFilesPending(handler: () => void): Promise<() => void> {
+  return listen('open-files-pending', () => handler())
 }
 
 export const VIDEO_EXTENSIONS = [

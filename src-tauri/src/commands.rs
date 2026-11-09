@@ -17,7 +17,7 @@ const VIDEO_EXTS: &[&str] = &[
 ];
 const IMAGE_EXTS: &[&str] = &["jpg", "jpeg", "png", "webp", "bmp", "tif", "tiff", "gif", "avif"];
 
-fn extension_kind(path: &str) -> Option<JobKind> {
+pub(crate) fn extension_kind(path: &str) -> Option<JobKind> {
     let ext = Path::new(path)
         .extension()?
         .to_string_lossy()
@@ -249,6 +249,14 @@ pub async fn reveal_path(app: AppHandle, path: String) -> Result<(), String> {
             .open_path(target.to_string_lossy().to_string(), None::<String>)
     };
     result.map_err(|e| e.to_string())
+}
+
+/// Returns (and clears) files that were handed to the app by the OS
+/// ("Open with", drag onto the icon, or a file argument) before the UI was
+/// ready to receive them.
+#[tauri::command]
+pub fn take_pending_open(state: State<'_, AppState>) -> Vec<String> {
+    std::mem::take(&mut *state.pending_open.lock().unwrap())
 }
 
 /// Frames + metadata for the preview & diff modal (videos only).
