@@ -43,6 +43,8 @@ pub struct AppState {
     pub slot_notify: Notify,
     pub jobs: Mutex<HashMap<String, JobControl>>,
     pub settings_path: Option<PathBuf>,
+    /// Files received from the OS before the frontend drained them.
+    pub pending_open: Mutex<Vec<String>>,
 }
 
 impl AppState {
@@ -55,6 +57,7 @@ impl AppState {
             slot_notify: Notify::new(),
             jobs: Mutex::new(HashMap::new()),
             settings_path: None,
+            pending_open: Mutex::new(Vec::new()),
         }
     }
 
