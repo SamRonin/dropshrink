@@ -39,12 +39,12 @@ interface StatusVisual {
 }
 
 const PILL_CLASSES: Record<JobStatus, string> = {
-  queued: 'bg-white/5 text-zinc-400',
-  probing: 'bg-white/5 text-zinc-400',
+  queued: 'bg-overlay/5 text-zinc-400',
+  probing: 'bg-overlay/5 text-zinc-400',
   processing: 'bg-accent-400/10 text-accent-300',
   done: 'bg-emerald-400/10 text-emerald-300',
   error: 'bg-rose-400/10 text-rose-300',
-  canceled: 'bg-white/5 text-zinc-400',
+  canceled: 'bg-overlay/5 text-zinc-400',
 }
 
 function statusVisual(status: JobStatus, t: (key: string) => string): StatusVisual {
@@ -183,7 +183,7 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
 
         {job.status === 'processing' && (
           <>
-            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+            <div className="mt-2.5 h-1.5 overflow-hidden rounded-full bg-overlay/[0.06]">
               {job.progress != null ? (
                 <motion.div
                   className="h-full rounded-full bg-gradient-to-r from-accent-400 to-emerald-400"
@@ -248,7 +248,7 @@ export const FileCard = forwardRef<HTMLLIElement, FileCardProps>(function FileCa
         )}
 
         {/* Row 3 — actions */}
-        <div className="mt-3 flex items-center justify-end gap-1 border-t border-white/[0.04] pt-2.5">
+        <div className="mt-3 flex items-center justify-end gap-1 border-t border-overlay/[0.04] pt-2.5">
           {canCancel && (
             <button
               type="button"

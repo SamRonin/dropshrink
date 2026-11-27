@@ -167,6 +167,7 @@ Common formats are supported: MP4, MKV, MOV, WebM for video; JPG, PNG, WebP for 
 | --- | --- | --- |
 | Concurrent jobs | How many files encode at the same time (1–8) | ≈ half of your CPU cores |
 | Web preset codec | H.264 (faster encode) or VP9 (smaller files, slower encode, WebM output) | H.264 |
+| Theme | Dark, Light, or System (follows the operating system's light/dark setting) | Dark |
 | Output folder | Next to the source file, or a folder you pick | Next to the source file |
 | Strip metadata | Remove EXIF, location and other personal data from outputs; when disabled, metadata is carried over via `-map_metadata 0` | On |
 | Hardware acceleration | Encode video on the GPU when a working encoder (NVENC/QSV/VAAPI/VideoToolbox) is detected, with automatic CPU fallback | On (when available) |

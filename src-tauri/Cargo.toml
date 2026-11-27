@@ -1,6 +1,6 @@
 [package]
 name = "dropshrink"
-version = "0.3.1"
+version = "0.4.0"
 description = "Fast, offline drag-and-drop video & image compressor"
 authors = ["DropShrink Contributors"]
 license = "MIT"

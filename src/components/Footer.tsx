@@ -21,7 +21,7 @@ export function Footer() {
   const hwTitle = hw?.available ? hw.encoders.join(', ') : undefined
 
   return (
-    <footer className="mt-auto flex h-11 shrink-0 items-center justify-between gap-3 border-t border-white/5 px-4 text-xs text-zinc-500 sm:px-6">
+    <footer className="mt-auto flex h-11 shrink-0 items-center justify-between gap-3 border-t border-overlay/5 px-4 text-xs text-zinc-500 sm:px-6">
       <div
         className="flex min-w-0 items-center gap-2"
         title={healthy ? undefined : t('footer.missingHint')}

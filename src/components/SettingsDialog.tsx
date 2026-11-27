@@ -3,7 +3,7 @@ import { open as openDialog } from '@tauri-apps/plugin-dialog'
 import { AnimatePresence, motion } from 'framer-motion'
 import { FolderOpen, Zap } from 'lucide-react'
 
-import type { AppSettings, WebCodec } from '../types'
+import type { AppSettings, ThemeMode, WebCodec } from '../types'
 import { api } from '../lib/tauri'
 import { formatNumber } from '../lib/format'
 import { useI18n } from '../i18n'
@@ -16,6 +16,12 @@ const CODEC_LABEL_KEYS: Record<WebCodec, string> = {
   vp9: 'settings.webCodec.vp9',
 }
 
+const THEME_LABEL_KEYS: Record<ThemeMode, string> = {
+  dark: 'settings.theme.dark',
+  light: 'settings.theme.light',
+  system: 'settings.theme.system',
+}
+
 const DEFAULT_SETTINGS: AppSettings = {
   maxConcurrent: 2,
   webCodec: 'h264',
@@ -23,6 +29,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   stripMetadata: true,
   hwAccel: true,
   ffmpegDir: null,
+  theme: 'dark',
 }
 
 export function SettingsDialog() {
@@ -175,6 +182,40 @@ export function SettingsDialog() {
                 </p>
               </div>
 
+              {/* Colour theme */}
+              <div>
+                <p className="text-sm font-medium text-zinc-200">
+                  {t('settings.theme')}
+                </p>
+                <div className="mt-2 grid grid-cols-3 gap-2">
+                  {(Object.keys(THEME_LABEL_KEYS) as ThemeMode[]).map((mode) => {
+                    const selected = draft.theme === mode
+                    return (
+                      <button
+                        key={mode}
+                        type="button"
+                        aria-pressed={selected}
+                        onClick={() =>
+                          setDraft((current) =>
+                            current ? { ...current, theme: mode } : current,
+                          )
+                        }
+                        className={`inline-flex h-9 items-center justify-center rounded-xl border px-3 text-xs font-medium transition-colors ${
+                          selected
+                            ? 'border-accent-400/60 bg-accent-400/10 text-accent-200'
+                            : 'border-overlay/[0.06] bg-ink-900 text-zinc-400 hover:border-overlay/15 hover:text-zinc-200'
+                        }`}
+                      >
+                        {t(THEME_LABEL_KEYS[mode])}
+                      </button>
+                    )
+                  })}
+                </div>
+                <p className="mt-1.5 text-xs text-zinc-500">
+                  {t('settings.themeHint')}
+                </p>
+              </div>
+
               {/* Web preset codec */}
               <div>
                 <p className="text-sm font-medium text-zinc-200">
@@ -196,7 +237,7 @@ export function SettingsDialog() {
                         className={`inline-flex h-9 items-center justify-center rounded-xl border px-3 text-xs font-medium transition-colors ${
                           selected
                             ? 'border-accent-400/60 bg-accent-400/10 text-accent-200'
-                            : 'border-white/[0.06] bg-ink-900 text-zinc-400 hover:border-white/15 hover:text-zinc-200'
+                            : 'border-overlay/[0.06] bg-ink-900 text-zinc-400 hover:border-overlay/15 hover:text-zinc-200'
                         }`}
                       >
                         {t(CODEC_LABEL_KEYS[codec])}
@@ -224,7 +265,7 @@ export function SettingsDialog() {
                   <button
                     type="button"
                     onClick={() => void pickOutputDir()}
-                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-white/5 px-3 text-xs font-medium text-zinc-200 transition-colors hover:bg-white/10"
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-overlay/5 px-3 text-xs font-medium text-zinc-200 transition-colors hover:bg-overlay/10"
                   >
                     <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
                     {t('settings.outputDirPick')}
@@ -258,7 +299,7 @@ export function SettingsDialog() {
                     )
                   }
                   className={`relative h-6 w-10 shrink-0 rounded-full transition-colors ${
-                    draft.stripMetadata ? 'bg-accent-500' : 'bg-white/10'
+                    draft.stripMetadata ? 'bg-accent-500' : 'bg-overlay/10'
                   }`}
                 >
                   <span
@@ -304,7 +345,7 @@ export function SettingsDialog() {
                     )
                   }
                   className={`relative mt-0.5 h-6 w-10 shrink-0 rounded-full transition-colors ${
-                    draft.hwAccel ? 'bg-accent-500' : 'bg-white/10'
+                    draft.hwAccel ? 'bg-accent-500' : 'bg-overlay/10'
                   }`}
                 >
                   <span
@@ -330,7 +371,7 @@ export function SettingsDialog() {
                   <button
                     type="button"
                     onClick={() => void pickFfmpegDir()}
-                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-white/5 px-3 text-xs font-medium text-zinc-200 transition-colors hover:bg-white/10"
+                    className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-overlay/5 px-3 text-xs font-medium text-zinc-200 transition-colors hover:bg-overlay/10"
                   >
                     <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
                     {t('settings.outputDirPick')}
@@ -354,7 +395,7 @@ export function SettingsDialog() {
               <button
                 type="button"
                 onClick={() => void save()}
-                className="rounded-xl bg-accent-500 px-4 py-2 text-sm font-semibold text-ink-950 transition-all hover:bg-accent-400 active:scale-95"
+                className="rounded-xl bg-accent-500 px-4 py-2 text-sm font-semibold text-zinc-950 transition-all hover:bg-accent-400 active:scale-95"
               >
                 {t('settings.save')}
               </button>

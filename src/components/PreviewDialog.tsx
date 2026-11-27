@@ -180,7 +180,7 @@ function CompareView({
         className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-white/90 shadow-[0_0_8px_rgba(0,0,0,0.6)]"
         style={{ left: `${position}%` }}
       >
-        <span className="absolute top-1/2 left-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-ink-950 shadow-lg">
+        <span className="absolute top-1/2 left-1/2 flex h-8 w-8 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-zinc-950 shadow-lg">
           <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
         </span>
       </div>
@@ -288,7 +288,7 @@ function DualVideoPlayer({
           type="button"
           onClick={toggle}
           aria-label={playing ? t('preview.pause') : t('preview.play')}
-          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-500 text-ink-950 transition-all hover:bg-accent-400 active:scale-95"
+          className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent-500 text-zinc-950 transition-all hover:bg-accent-400 active:scale-95"
         >
           {playing ? (
             <Pause className="h-5 w-5" aria-hidden="true" />
@@ -330,7 +330,7 @@ function StatsRow({
   const { outputSize, inputSize } = job
 
   return (
-    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-white/[0.04] px-4 py-3 text-xs text-zinc-300">
+    <div className="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-xl bg-overlay/[0.04] px-4 py-3 text-xs text-zinc-300">
       <span className="flex items-center gap-1.5">
         {formatBytes(inputSize, lang)}
         {outputSize != null && (
@@ -541,7 +541,7 @@ export function PreviewDialog() {
                 className={`inline-flex h-9 items-center justify-center rounded-xl border px-3 text-xs font-medium transition-colors ${
                   frameTab === tab
                     ? 'border-accent-400/60 bg-accent-400/10 text-accent-200'
-                    : 'border-white/[0.06] bg-ink-900 text-zinc-400 hover:border-white/15 hover:text-zinc-200'
+                    : 'border-overlay/[0.06] bg-ink-900 text-zinc-400 hover:border-overlay/15 hover:text-zinc-200'
                 }`}
               >
                 {t(key)}
@@ -617,7 +617,7 @@ export function PreviewDialog() {
                 <div
                   role="group"
                   aria-label={t('preview.title')}
-                  className="flex items-center rounded-xl border border-white/[0.06] bg-ink-900 p-1"
+                  className="flex items-center rounded-xl border border-overlay/[0.06] bg-ink-900 p-1"
                 >
                   <button
                     type="button"
