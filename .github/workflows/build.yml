@@ -49,6 +49,8 @@ jobs:
             bundles: 'appimage deb'
           - os: windows-latest
             target: x86_64-pc-windows-msvc
+          - os: windows-11-arm
+            target: aarch64-pc-windows-msvc
           - os: macos-15
             target: aarch64-apple-darwin
           # macos-13 runners were retired by GitHub (jobs queue forever);
@@ -85,11 +87,11 @@ jobs:
 
       # FFmpeg/FFprobe sidecars (Tauri externalBin) must exist before tauri build.
       - name: Fetch FFmpeg sidecar binaries (unix)
-        if: matrix.os != 'windows-latest'
+        if: "!startsWith(matrix.os, 'windows')"
         run: bash scripts/fetch-binaries.sh ${{ matrix.target }}
 
       - name: Fetch FFmpeg sidecar binaries (windows)
-        if: matrix.os == 'windows-latest'
+        if: startsWith(matrix.os, 'windows')
         run: pwsh -NoProfile -ExecutionPolicy Bypass -File scripts/fetch-binaries.ps1 -Triple ${{ matrix.target }}
 
       - name: Install dependencies

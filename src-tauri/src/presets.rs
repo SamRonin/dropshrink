@@ -2,6 +2,7 @@ use crate::detect::{FfmpegStatus, HwAccelStatus};
 use crate::jobs::{JobKind, Preset};
 use crate::probe::MediaInfo;
 use crate::settings::{Settings, WebCodec};
+use std::path::Path;
 
 /// File extension of the encoder output for a given preset/media combination.
 /// `has_vp9` guards the Web preset: without libvpx-vp9 the fallback is H.264,
@@ -389,6 +390,54 @@ pub fn build_image_args(preset: Preset, input: &str, output: &str, strip_metadat
         }
     }
 
+    args.push(output.into());
+    args
+}
+
+/// `true` for GIF inputs. Animated GIFs need their own path: a single-frame
+/// WebP/JPEG encode would silently drop every frame after the first.
+pub fn is_gif(path: &str) -> bool {
+    Path::new(path)
+        .extension()
+        .is_some_and(|ext| ext.eq_ignore_ascii_case("gif"))
+}
+
+/// Full ffmpeg argument list for an animated (or static) GIF job. The output
+/// stays a GIF with every frame kept; it is re-encoded with an optimised
+/// palette (`palettegen` + `paletteuse`), which is what shrinks it.
+pub fn build_gif_args(
+    preset: Preset,
+    input: &str,
+    output: &str,
+    strip_metadata: bool,
+    source_fps: Option<f32>,
+) -> Vec<String> {
+    let mut args = base_args(input, &[]);
+    if strip_metadata {
+        strip_metadata_args(&mut args);
+    } else {
+        keep_metadata_args(&mut args);
+    }
+
+    // (max width/height, max frame rate, palette colours, dither)
+    let (cap, max_fps, colors, dither) = match preset {
+        Preset::Telegram => (1280, 25, 256, "sierra2_4a"),
+        Preset::Web => (1920, 20, 256, "sierra2_4a"),
+        Preset::Extreme => (1600, 12, 128, "bayer:bayer_scale=5"),
+    };
+
+    // The frame-rate filter only ever drops frames: `fps=` would duplicate
+    // frames of a slower GIF, so it is added only when the source is faster.
+    let fps_filter = match source_fps {
+        Some(fps) if fps > max_fps as f32 + 0.5 => format!("fps={max_fps},"),
+        _ => String::new(),
+    };
+    // Only ever shrink: `min(cap, iw)` keeps small GIFs at their size instead
+    // of upscaling them (which would make the file bigger, not smaller).
+    let filter = format!(
+        "{fps_filter}scale=w='min({cap},iw)':h='min({cap},ih)':force_original_aspect_ratio=decrease:force_divisible_by=2,split[a][b];[a]palettegen=max_colors={colors}:stats_mode=diff[p];[b][p]paletteuse=dither={dither}:diff_mode=rectangle",
+    );
+    args.extend(["-filter_complex".into(), filter]);
     args.push(output.into());
     args
 }

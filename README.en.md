@@ -247,7 +247,8 @@ dropshrink/
 
 ### Known limitations
 
-- GIF files are processed as static images; animation is not preserved.
+- Animated GIFs are compressed with all frames kept, and the output stays a GIF. Frame rates above the preset's cap are reduced, and small images are never enlarged.
+- The Windows ARM64 build uses the x64 FFmpeg build, which runs under Windows' built-in x64 emulation, so it may be slower than the x64 build.
 - HEIC/AVIF support depends on the FFmpeg build installed on your system.
 
 ## 🤝 Contributing

@@ -235,7 +235,10 @@ async fn run_job(app: AppHandle, id: String) {
         },
     );
 
-    // --- Probe (videos only) -------------------------------------------------
+    // GIF output is decided before probing: GIFs keep their format.
+    let is_gif = presets::is_gif(&spec.input_path);
+
+    // --- Probe (videos, and GIFs for their frame rate) -----------------------
     let mut media = None;
     if spec.kind == JobKind::Video {
         let Some(ffprobe) = ffmpeg_status.ffprobe_path.clone() else {
@@ -270,13 +273,28 @@ async fn run_job(app: AppHandle, id: String) {
         }
     }
 
+    // A GIF probe is best effort: without it the frame-rate cap is skipped,
+    // and the encode itself still reports any real problem.
+    if is_gif {
+        if let Some(ffprobe) = ffmpeg_status.ffprobe_path.clone() {
+            if let Ok(info) = probe::probe(&ffprobe, Path::new(&spec.input_path)).await {
+                media = Some(info);
+            }
+        }
+    }
+
     // --- Compute the output path --------------------------------------------
-    let ext = presets::output_ext(
-        spec.preset,
-        spec.kind,
-        settings.web_codec,
-        ffmpeg_status.has_vp9,
-    );
+    // GIFs stay GIFs (animation kept); everything else follows the preset.
+    let ext = if is_gif {
+        "gif"
+    } else {
+        presets::output_ext(
+            spec.preset,
+            spec.kind,
+            settings.web_codec,
+            ffmpeg_status.has_vp9,
+        )
+    };
     let stem = spec
         .file_name
         .rsplit_once('.')
@@ -321,13 +339,24 @@ async fn run_job(app: AppHandle, id: String) {
                 media.as_ref().expect("video jobs are always probed"),
             )
         } else {
-            presets::EncodePlan {
-                args: presets::build_image_args(
+            let args = if is_gif {
+                presets::build_gif_args(
                     spec.preset,
                     &spec.input_path,
                     &output_str,
                     settings_eff.strip_metadata,
-                ),
+                    media.as_ref().and_then(|m| m.fps),
+                )
+            } else {
+                presets::build_image_args(
+                    spec.preset,
+                    &spec.input_path,
+                    &output_str,
+                    settings_eff.strip_metadata,
+                )
+            };
+            presets::EncodePlan {
+                args,
                 hw_encoder: None,
             }
         };

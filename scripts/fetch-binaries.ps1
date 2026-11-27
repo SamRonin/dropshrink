@@ -5,6 +5,9 @@
 #   src-tauri/binaries/ffprobe-x86_64-pc-windows-msvc.exe
 #
 # Source: BtbN GPL builds (GitHub) — includes NVENC / QSV encoders.
+# BtbN publishes Windows builds for x64 only. On Windows ARM64 (aarch64) the
+# x64 build runs through Windows' built-in x64 emulation, so the same download
+# is used for both triples.
 #
 # Usage:  powershell -ExecutionPolicy Bypass -File scripts/fetch-binaries.ps1
 #         [-Triple x86_64-pc-windows-msvc]
