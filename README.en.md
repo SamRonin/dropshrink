@@ -221,13 +221,13 @@ dropshrink/
 
 ## 🗺 Roadmap
 
-- [ ] Light theme
+- [x] Light theme
 - [ ] More languages
 - [ ] Audio preset
 - [ ] Preset customization UI
 - [ ] Drag-reorder for the queue
 - [ ] HEIC support
-- [ ] Windows "Send to" integration
+- [x] "Open with" integration
 
 ## 🛟 Troubleshooting
 
