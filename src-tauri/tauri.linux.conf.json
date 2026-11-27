@@ -1,0 +1,159 @@
+{
+  "bundle": {
+    "fileAssociations": [
+      {
+        "ext": [
+          "mp4",
+          "m4v"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/mp4"
+      },
+      {
+        "ext": [
+          "mkv"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/x-matroska"
+      },
+      {
+        "ext": [
+          "mov"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/quicktime"
+      },
+      {
+        "ext": [
+          "webm"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/webm"
+      },
+      {
+        "ext": [
+          "avi"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/x-msvideo"
+      },
+      {
+        "ext": [
+          "wmv"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/x-ms-wmv"
+      },
+      {
+        "ext": [
+          "flv"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/x-flv"
+      },
+      {
+        "ext": [
+          "mpg",
+          "mpeg"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/mpeg"
+      },
+      {
+        "ext": [
+          "3gp"
+        ],
+        "name": "Video",
+        "description": "Video file",
+        "role": "Editor",
+        "mimeType": "video/3gpp"
+      },
+      {
+        "ext": [
+          "jpg",
+          "jpeg"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/jpeg"
+      },
+      {
+        "ext": [
+          "png"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/png"
+      },
+      {
+        "ext": [
+          "webp"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/webp"
+      },
+      {
+        "ext": [
+          "bmp"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/bmp"
+      },
+      {
+        "ext": [
+          "tif",
+          "tiff"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/tiff"
+      },
+      {
+        "ext": [
+          "gif"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/gif"
+      },
+      {
+        "ext": [
+          "avif"
+        ],
+        "name": "Image",
+        "description": "Image file",
+        "role": "Editor",
+        "mimeType": "image/avif"
+      }
+    ],
+    "linux": {
+      "deb": {
+        "desktopTemplate": "linux/DropShrink.desktop.hbs"
+      }
+    }
+  }
+}
