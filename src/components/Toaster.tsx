@@ -31,7 +31,7 @@ function ToastRow({ item }: { item: ToastItem }) {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: -8, scale: 0.97 }}
       transition={{ duration: 0.18, ease: 'easeOut' }}
-      className="pointer-events-auto flex items-center gap-2 rounded-xl border border-white/10 bg-ink-800/95 px-4 py-2.5 text-sm text-zinc-200 shadow-card backdrop-blur"
+      className="pointer-events-auto flex items-center gap-2 rounded-xl border border-overlay/10 bg-ink-800/95 px-4 py-2.5 text-sm text-zinc-200 shadow-card backdrop-blur"
     >
       <Icon className={`h-4 w-4 shrink-0 ${meta.classes}`} aria-hidden="true" />
       <span dir="auto">{item.message}</span>

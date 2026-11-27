@@ -71,6 +71,9 @@ export interface FfmpegStatus {
 
 export type WebCodec = 'h264' | 'vp9'
 
+/** `system` follows the operating system's light/dark setting. */
+export type ThemeMode = 'dark' | 'light' | 'system'
+
 export interface AppSettings {
   maxConcurrent: number
   webCodec: WebCodec
@@ -78,6 +81,7 @@ export interface AppSettings {
   stripMetadata: boolean
   hwAccel: boolean
   ffmpegDir: string | null
+  theme: ThemeMode
 }
 
 /** Frames + dimensions for the video preview & diff modal. */

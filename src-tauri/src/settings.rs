@@ -10,6 +10,15 @@ pub enum WebCodec {
     Vp9,
 }
 
+/// Colour theme. `System` follows the operating system's light/dark setting.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum ThemeMode {
+    Dark,
+    Light,
+    System,
+}
+
 /// Persisted user preferences. Mirrors `AppSettings` in `src/types.ts`.
 /// The container-level `default` keeps old settings files forward-compatible:
 /// missing fields are filled in from `Settings::default()` on load.
@@ -25,6 +34,8 @@ pub struct Settings {
     /// Optional user-provided directory that contains `ffmpeg`/`ffprobe`.
     /// Lowest lookup priority (sidecar → PATH → common → custom).
     pub custom_ffmpeg_dir: Option<String>,
+    /// Interface colour theme. Missing in older settings files → `Dark`.
+    pub theme: ThemeMode,
 }
 
 impl Default for Settings {
@@ -39,6 +50,7 @@ impl Default for Settings {
             strip_metadata: true,
             hw_accel: true,
             custom_ffmpeg_dir: None,
+            theme: ThemeMode::Dark,
         }
     }
 }

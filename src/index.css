@@ -4,6 +4,52 @@
 
 :root {
   --font-main: 'Inter', 'Vazirmatn', ui-sans-serif, system-ui, sans-serif;
+
+  /* Dark theme (default). RGB triplets, so Tailwind can add opacity. */
+  color-scheme: dark;
+  --ink-950: 9 9 11;
+  --ink-900: 14 14 17;
+  --ink-850: 18 18 22;
+  --ink-800: 23 23 28;
+  --ink-700: 32 32 39;
+  --ink-600: 43 43 51;
+  --zinc-100: 244 244 245;
+  --zinc-200: 228 228 231;
+  --zinc-300: 212 212 216;
+  --zinc-400: 161 161 170;
+  --zinc-500: 113 113 122;
+  --zinc-600: 82 82 91;
+  --accent-200: 153 246 228;
+  --accent-300: 94 234 212;
+  --overlay: 255 255 255;
+  --text-strong: 255 255 255;
+  --emerald-300: 110 231 183;
+  --amber-300: 252 211 77;
+  --rose-300: 253 164 175;
+}
+
+/* Light theme, applied by useTheme() through data-theme on <html>. */
+:root[data-theme='light'] {
+  color-scheme: light;
+  --ink-950: 243 244 246;
+  --ink-900: 248 249 250;
+  --ink-850: 255 255 255;
+  --ink-800: 240 241 244;
+  --ink-700: 228 230 235;
+  --ink-600: 212 215 221;
+  --zinc-100: 9 9 11;
+  --zinc-200: 24 24 27;
+  --zinc-300: 39 39 42;
+  --zinc-400: 63 63 70;
+  --zinc-500: 82 82 91;
+  --zinc-600: 113 113 122;
+  --accent-200: 13 148 136;
+  --accent-300: 15 118 110;
+  --overlay: 0 0 0;
+  --text-strong: 9 9 11;
+  --emerald-300: 4 120 87;
+  --amber-300: 180 83 9;
+  --rose-300: 190 18 60;
 }
 
 html[lang='fa'] {
@@ -38,14 +84,15 @@ textarea,
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  @apply rounded-full bg-white/10;
+  @apply rounded-full bg-overlay/10;
 }
 ::-webkit-scrollbar-thumb:hover {
-  @apply bg-white/20;
+  @apply bg-overlay/20;
 }
 
 ::selection {
-  @apply bg-accent-500/30 text-white;
+  @apply bg-accent-500/30;
+  color: rgb(var(--text-strong));
 }
 
 /* Focus visibility for keyboard users */
@@ -55,9 +102,9 @@ textarea,
 
 @layer components {
   .panel {
-    @apply rounded-2xl border border-white/[0.06] bg-ink-850 shadow-card;
+    @apply rounded-2xl border border-overlay/[0.06] bg-ink-850 shadow-card;
   }
   .icon-btn {
-    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl text-zinc-400 transition-colors hover:bg-white/[0.06] hover:text-zinc-100 active:scale-95;
+    @apply inline-flex h-9 w-9 items-center justify-center rounded-xl text-zinc-400 transition-colors hover:bg-overlay/[0.06] hover:text-zinc-100 active:scale-95;
   }
 }

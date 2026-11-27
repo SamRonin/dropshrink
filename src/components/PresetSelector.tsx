@@ -54,11 +54,11 @@ export function PresetSelector() {
               className={`relative rounded-2xl border p-4 text-start transition-colors duration-150 ${
                 selected
                   ? 'border-accent-400/60 bg-accent-400/10'
-                  : 'border-white/[0.06] bg-ink-850 hover:border-white/15'
+                  : 'border-overlay/[0.06] bg-ink-850 hover:border-overlay/15'
               }`}
             >
               {selected && (
-                <span className="absolute end-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-accent-400 text-ink-950">
+                <span className="absolute end-3 top-3 flex h-5 w-5 items-center justify-center rounded-full bg-accent-400 text-zinc-950">
                   <Check className="h-3 w-3" strokeWidth={3} aria-hidden="true" />
                 </span>
               )}

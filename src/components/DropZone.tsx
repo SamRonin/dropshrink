@@ -135,7 +135,7 @@ export function DropZone() {
     'relative flex w-full cursor-pointer select-none flex-col items-center justify-center rounded-3xl border-2 border-dashed text-center transition-colors duration-200',
     isDragging
       ? 'border-accent-400 bg-accent-400/[0.06] shadow-glow'
-      : 'border-white/[0.08] bg-ink-900/40 hover:border-white/20 hover:bg-ink-900/70',
+      : 'border-overlay/[0.08] bg-ink-900/40 hover:border-overlay/20 hover:bg-ink-900/70',
     isEmpty ? 'min-h-[280px] gap-4 px-6 py-10' : 'h-28 px-4 sm:px-6',
   ].join(' ')
 
@@ -158,7 +158,7 @@ export function DropZone() {
         </div>
       ) : isEmpty ? (
         <>
-          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-400/25 to-accent-600/10 text-accent-300 ring-1 ring-inset ring-white/10">
+          <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-accent-400/25 to-accent-600/10 text-accent-300 ring-1 ring-inset ring-overlay/10">
             <UploadCloud className="h-8 w-8" aria-hidden="true" />
           </div>
           <div className="space-y-1.5">
@@ -167,7 +167,7 @@ export function DropZone() {
               {t('drop.subtitle')}
             </p>
           </div>
-          <p className="rounded-full bg-white/[0.04] px-3.5 py-1.5 text-xs text-zinc-600">
+          <p className="rounded-full bg-overlay/[0.04] px-3.5 py-1.5 text-xs text-zinc-600">
             {t('drop.hint')}
           </p>
           <button
@@ -176,7 +176,7 @@ export function DropZone() {
               event.stopPropagation()
               void browse()
             }}
-            className="mt-1 inline-flex h-9 items-center gap-2 rounded-full bg-white/5 px-4 text-sm font-medium text-zinc-200 transition-colors hover:bg-white/10"
+            className="mt-1 inline-flex h-9 items-center gap-2 rounded-full bg-overlay/5 px-4 text-sm font-medium text-zinc-200 transition-colors hover:bg-overlay/10"
           >
             <FolderOpen className="h-4 w-4" aria-hidden="true" />
             {t('drop.browse')}
@@ -185,7 +185,7 @@ export function DropZone() {
       ) : (
         <div className="flex w-full items-center justify-between gap-3">
           <div className="flex min-w-0 items-center gap-3">
-            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] text-accent-300">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-overlay/[0.04] text-accent-300">
               <UploadCloud className="h-[18px] w-[18px]" aria-hidden="true" />
             </div>
             <div className="min-w-0 text-start">
@@ -201,7 +201,7 @@ export function DropZone() {
               event.stopPropagation()
               void browse()
             }}
-            className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-white/5 px-3.5 text-xs font-medium text-zinc-200 transition-colors hover:bg-white/10"
+            className="inline-flex h-9 shrink-0 items-center gap-2 rounded-full bg-overlay/5 px-3.5 text-xs font-medium text-zinc-200 transition-colors hover:bg-overlay/10"
           >
             <FolderOpen className="h-3.5 w-3.5" aria-hidden="true" />
             {t('drop.browse')}

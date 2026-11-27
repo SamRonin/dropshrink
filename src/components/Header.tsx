@@ -14,7 +14,7 @@ export function Header() {
     }`
 
   return (
-    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-white/5 bg-ink-950/80 px-4 backdrop-blur-md sm:px-6">
+    <header className="sticky top-0 z-40 flex h-14 shrink-0 items-center justify-between gap-4 border-b border-overlay/5 bg-ink-950/80 px-4 backdrop-blur-md sm:px-6">
       <div className="flex min-w-0 items-center gap-3">
         <BrandMark />
         <span className="hidden truncate text-xs text-zinc-500 sm:inline">
@@ -26,7 +26,7 @@ export function Header() {
         <div
           role="group"
           aria-label={t('header.language')}
-          className="flex items-center rounded-xl border border-white/[0.06] bg-ink-850 p-1"
+          className="flex items-center rounded-xl border border-overlay/[0.06] bg-ink-850 p-1"
         >
           <button
             type="button"

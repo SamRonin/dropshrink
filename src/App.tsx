@@ -8,10 +8,12 @@ import { SettingsDialog } from './components/SettingsDialog'
 import { Toaster } from './components/Toaster'
 import { useHotkeys } from './hooks/useHotkeys'
 import { useTauriEvents } from './hooks/useTauriEvents'
+import { useTheme } from './hooks/useTheme'
 
 export default function App() {
   useTauriEvents()
   useHotkeys()
+  useTheme()
 
   return (
     <div className="flex h-full flex-col overflow-hidden bg-ink-950">
