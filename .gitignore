@@ -31,3 +31,4 @@ bun.lockb
 
 # FFmpeg sidecar binaries (fetched via scripts/fetch-binaries.sh)
 src-tauri/binaries/
+src-tauri/linux/generated/

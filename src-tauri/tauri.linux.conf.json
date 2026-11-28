@@ -1,4 +1,7 @@
 {
+  "build": {
+    "beforeBuildCommand": "npm run build && node scripts/gen-appimage-desktop.mjs"
+  },
   "bundle": {
     "fileAssociations": [
       {
@@ -153,6 +156,11 @@
     "linux": {
       "deb": {
         "desktopTemplate": "linux/DropShrink.desktop.hbs"
+      },
+      "appimage": {
+        "files": {
+          "usr/share/applications/DropShrink.desktop": "linux/generated/DropShrink.desktop"
+        }
       }
     }
   }

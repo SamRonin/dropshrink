@@ -117,6 +117,8 @@
 | 🍎 مک (Intel) | DMG |
 | 🐧 لینوکس | AppImage / DEB |
 
+نسخه AppImage اطلاعات به‌روزرسانی دارد: ابزارهایی مانند [AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate) یا AppManager می‌توانند نسخهٔ جدید را از صفحهٔ ریلیزها پیدا کنند و فقط تغییرات را دانلود کنند.
+
 ### نصب FFmpeg
 
 از نسخهٔ فعلی، باینری‌های FFmpeg/FFprobe **همراه خود برنامه باندل می‌شوند** (Sidecar) و معمولاً نیازی به نصب جداگانه نیست. در غیر این صورت DropShrink هنگام اجرا، FFmpeg را به این ترتیب پیدا می‌کند:
