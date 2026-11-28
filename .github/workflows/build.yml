@@ -101,6 +101,8 @@ jobs:
         uses: tauri-apps/tauri-action@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Linux only: embeds AppImage update info and makes linuxdeploy write a .zsync file.
+          LDAI_UPDATE_INFORMATION: ${{ matrix.os == 'ubuntu-22.04' && format('gh-releases-zsync|{0}|{1}|latest|DropShrink_*_amd64.AppImage.zsync', github.repository_owner, github.event.repository.name) || '' }}
         with:
           tagName: v__VERSION__
           releaseName: 'DropShrink v__VERSION__'
@@ -109,3 +111,23 @@ jobs:
           prerelease: false
           includeUpdaterJson: false
           args: --target ${{ matrix.target }} ${{ matrix.bundles && format('--bundles {0}', matrix.bundles) || '' }}
+
+      # The .zsync file is written next to the working directory, not into the bundle folder,
+      # so find it, move it beside the AppImage and attach it to the release.
+      - name: Upload AppImage update info (.zsync)
+        if: matrix.os == 'ubuntu-22.04' && startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          VERSION=$(node -p "require('./src-tauri/tauri.conf.json').version")
+          APPIMAGE="src-tauri/target/${{ matrix.target }}/release/bundle/appimage/DropShrink_${VERSION}_amd64.AppImage"
+          test -f "$APPIMAGE"
+          mapfile -t FOUND < <(find "$GITHUB_WORKSPACE" -path "*/bundle/*" -prune -o -name "DropShrink_${VERSION}_amd64.AppImage.zsync" -type f -print)
+          if [ "${#FOUND[@]}" -ne 1 ]; then
+            echo "Expected exactly one .zsync file, found ${#FOUND[@]}:"
+            printf '%s\n' "${FOUND[@]}"
+            exit 1
+          fi
+          cp "${FOUND[0]}" "$APPIMAGE.zsync"
+          gh release upload "v$VERSION" "$APPIMAGE.zsync" --clobber --repo "$GITHUB_REPOSITORY"

@@ -116,6 +116,8 @@ Grab the latest version from the [Releases page](https://github.com/SamRonin/dro
 | 🍎 macOS (Intel) | DMG |
 | 🐧 Linux | AppImage / DEB |
 
+The AppImage carries update information: tools such as [AppImageUpdate](https://github.com/AppImageCommunity/AppImageUpdate) or AppManager can find newer releases on the Releases page and download only the changes.
+
 ### Installing FFmpeg
 
 As of the current version, the FFmpeg/FFprobe binaries are **bundled with the app as Tauri sidecars**, so a separate installation is usually unnecessary. Otherwise, DropShrink locates FFmpeg in this order:
